@@ -24,8 +24,39 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment (AWS Amplify)
+
+Quick steps to deploy to AWS Amplify Console:
+
+- Connect this repository to AWS Amplify (Create app → Connect repository).
+- Use the provided build settings (`amplify.yml` at repository root).
+- Add the required environment variables in Amplify Console (App settings → Environment variables):
+	- `NEXTAUTH_SECRET`
+	- `NEXTAUTH_URL`
+	- `AWS_REGION`
+	- `AWS_ACCESS_KEY_ID`
+	- `AWS_SECRET_ACCESS_KEY`
+	- `AWS_COGNITO_CLIENT_ID`
+	- `AWS_COGNITO_USER_POOL_ID`
+	- `AWS_S3_BUCKET_NAME`
+	- `AWS_SES_FROM_EMAIL`
+	- `AWS_SNS_TOPIC_ARN`
+	- `COLLEGE_IP_RANGE`
+	- `QR_SECRET`
+	- `DYNAMODB_USERS_TABLE` (optional)
+	- `DYNAMODB_ATTENDANCE_TABLE` (optional)
+	- `DYNAMODB_SESSIONS_TABLE` (optional)
+
+Local build and run:
+
+```bash
+npm ci
+npm run dev
+```
+
+Notes:
+- For server-side features (DynamoDB, SES, SNS, Cognito) ensure the Amplify app has appropriate IAM credentials.
+- The `amplify.yml` in repo is a minimal configuration; adjust build artifacts and caching for your workflow.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 

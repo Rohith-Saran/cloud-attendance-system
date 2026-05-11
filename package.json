@@ -3,15 +3,33 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "vitest"
   },
   "dependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.1045.0",
+    "@aws-sdk/client-dynamodb": "^3.1045.0",
+    "@aws-sdk/client-s3": "^3.1045.0",
+    "@aws-sdk/client-ses": "^3.1045.0",
+    "@aws-sdk/client-sns": "^3.1045.0",
+    "@aws-sdk/lib-dynamodb": "^3.1045.0",
+    "@aws-sdk/s3-request-presigner": "^3.1045.0",
+    "@tailwindcss/forms": "^0.5.11",
+    "@types/pdfkit": "^0.17.6",
+    "@types/qrcode": "^1.5.6",
+    "csv-writer": "^1.6.0",
+    "ip-range-check": "^0.2.0",
     "next": "16.2.4",
+    "next-auth": "^4.24.14",
+    "pdfkit": "^0.18.0",
+    "qrcode": "^1.5.4",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "react-qr-scanner": "^1.0.0-alpha.11",
+    "recharts": "^3.8.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -20,7 +38,11 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "tailwindcss": "^4.3.0",
+    "typescript": "^5",
+    "vitest": "^1.0.0",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/jest-dom": "^6.0.0",
+    "jsdom": "^23.0.0"
   }
 }

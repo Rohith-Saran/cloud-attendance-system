@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+:root {
+  --surface: oklch(0.985 0.002 247);
+  --surface-elevated: oklch(1 0 0);
+  --ink: oklch(0.22 0.02 247);
+  --muted: oklch(0.52 0.02 247);
+  --accent: oklch(0.55 0.19 258);
+  --accent-soft: oklch(0.93 0.04 258);
+}
+
+body {
+  color: var(--ink);
+  background: var(--surface);
+}
