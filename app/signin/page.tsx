@@ -1,9 +1,8 @@
 import Link from "next/link";
-import { getProviders } from "next-auth/react";
 import CredentialsSignIn from "~/components/CredentialsSignIn";
 
 export default async function SignInPage() {
-  const providers = await getProviders();
+
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-slate-950 text-white">
@@ -40,24 +39,9 @@ export default async function SignInPage() {
               <CredentialsSignIn />
 
               <div className="border-t border-white/10 pt-5">
-                <div className="text-xs font-semibold uppercase tracking-[0.22em] text-white/60">More providers</div>
-                <div className="mt-3 space-y-2">
-                  {providers &&
-                    Object.values(providers)
-                      .filter((p: any) => p.id !== "credentials")
-                      .map((p: any) => (
-                        <a
-                          key={p.id}
-                          href={`/api/auth/signin/${p.id}?callbackUrl=/dashboard`}
-                          className="block rounded-xl bg-white/10 px-4 py-3 text-center text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/14"
-                        >
-                          Continue with {p.name}
-                        </a>
-                      ))}
-                </div>
+                <div className="text-xs font-semibold uppercase tracking-[0.22em] text-white/60">Aliases</div>
 
                 <div className="mt-4 text-xs text-white/55">
-                  Aliases:&nbsp;
                   <Link className="underline decoration-white/40 hover:text-white" href="/login">
                     /login
                   </Link>

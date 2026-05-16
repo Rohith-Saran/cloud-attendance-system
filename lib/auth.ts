@@ -8,6 +8,7 @@ import CognitoProvider from "next-auth/providers/cognito";
 import { verifyPassword } from "~/utils/hash";
 import { userIdFromEmail } from "~/utils/userId";
 
+
 function usersTableName() {
   return process.env.DYNAMODB_USERS_TABLE || process.env.DYNAMODB_TABLE_USERS;
 }
@@ -15,14 +16,15 @@ function usersTableName() {
 async function findLocalUserByEmail(email: string) {
   const table = usersTableName();
   if (table) {
-    const client = new DynamoDBClient({});
+    const client = new DynamoDBClient({ region: process.env.AWS_REGION || "ap-south-1" });
     const doc = DynamoDBDocumentClient.from(client);
     try {
       const uid = userIdFromEmail(email);
       const byId = await doc.send(new GetCommand({ TableName: table, Key: { userId: uid } }));
       if (byId.Item) return byId.Item;
-      const legacy = await doc.send(new GetCommand({ TableName: table, Key: { email } as any }));
+      const legacy = await doc.send(new GetCommand({ TableName: table, Key: { email } }));
       if (legacy.Item) return legacy.Item;
+
       const scanned = await doc.send(
         new ScanCommand({
           TableName: table,
@@ -56,24 +58,31 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-    async authorize(credentials) {
-      if (!credentials) return null;
-      const { email, password } = credentials as { email: string; password: string };
-      const user = await findLocalUserByEmail(email);
-      if (!user) return null;
+      async authorize(credentials) {
+        if (!credentials) return null;
+        const { email, password } = credentials as { email: string; password: string };
+        const user = await findLocalUserByEmail(email);
+        if (!user) return null;
 
-      const ok = verifyPassword(password, user.salt, user.passwordHash);
-      if (!ok) return null;
+        const salt = String((user as any).salt ?? "");
+        const passwordHash = String((user as any).passwordHash ?? "");
 
-      const id = user.userId ?? userIdFromEmail(email);
-      return {
-        id,
-        email: user.email,
-        name: user.name,
-        role: user.role ?? "student",
-        classId: user.classId ?? null,
-      };
-    },
+        if (!salt || !passwordHash) return null;
+
+        // verifyPassword uses the exact same KDF + hex encoding as signup.
+        // (see utils/hash.ts)
+        const ok = verifyPassword(password, salt, passwordHash);
+        if (!ok) return null;
+
+        const id = (user as any).userId ?? userIdFromEmail(email);
+        return {
+          id,
+          email: (user as any).email,
+          name: (user as any).name,
+          role: (user as any).role ?? "student",
+          classId: (user as any).classId ?? null,
+        };
+      },
     }),
     ...(process.env.AWS_COGNITO_CLIENT_ID &&
     cognitoIssuer &&

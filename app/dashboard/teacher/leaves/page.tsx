@@ -22,8 +22,14 @@ export default function TeacherLeavesPage() {
   }
 
   useEffect(() => {
-    void refresh();
+    void (async () => {
+      await refresh();
+    })();
   }, []);
+
+
+
+
 
   async function review(leaveId: string, verdict: "approved" | "rejected") {
     setStatus(null);

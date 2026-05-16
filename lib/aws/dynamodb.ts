@@ -38,10 +38,11 @@ type UnknownRecord = Record<string, unknown>;
 export async function putItem(params: { TableName: string; Item: UnknownRecord }) {
   if (demoMode) return { ok: true };
   try {
-    const cmd = new PutCommand(params as any);
+    const cmd = new PutCommand(params);
     return await ddbClient.send(cmd);
-  } catch (err: any) {
-    if (String(err?.name || err?.code).includes("UnrecognizedClient") || String(err?.message || "").includes("security token")) {
+  } catch (err: unknown) {
+    const e = err as { name?: string; code?: string; message?: string };
+    if (String(e?.name || e?.code).includes("UnrecognizedClient") || String(e?.message || "").includes("security token")) {
       return { ok: true, demo: true };
     }
     throw err;

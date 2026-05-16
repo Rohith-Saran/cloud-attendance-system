@@ -34,7 +34,9 @@ export async function middleware(req: NextRequest) {
   if (!requiredRole) return NextResponse.next();
 
   // Token may carry `role` or `groups`
-  const userRole = token.role ?? (Array.isArray((token as any).groups) ? (token as any).groups[0] : (token as any).groups);
+  const groups = (token as unknown as { groups?: unknown }).groups;
+  const userRole = token.role ?? (Array.isArray(groups) ? groups[0] : groups);
+
 
   if (!userRole) {
     url.pathname = "/signin";

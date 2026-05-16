@@ -25,7 +25,13 @@ export default function QRScannerPane({}: Props) {
       if (!text || busy) return;
 
       try {
-        const payload = JSON.parse(text);
+        const payload = text ? (() => {
+          try {
+            return JSON.parse(text);
+          } catch {
+            return null;
+          }
+        })() : null;
         if (!payload?.sessionId || !payload?.token) {
           setMsg("That QR payload is unreadable.");
           return;

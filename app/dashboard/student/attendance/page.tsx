@@ -116,8 +116,9 @@ export default function StudentAttendancePage() {
             onClick={() => downloadPdf()}
             className="mt-5 w-full rounded-2xl bg-slate-950 px-5 py-3 text-sm font-semibold text-white hover:bg-slate-900"
           >
-            Download attendance PDF (S3 URL)
+            Download attendance PDF
           </button>
+
         </div>
 
         <QRScannerPane />

@@ -42,7 +42,8 @@ export default function QRGenerator({ classId, subject = "" }: Props) {
   useEffect(() => {
     if (!sessionId) return;
     const sid = sessionId;
-    let timer: ReturnType<typeof setInterval>;
+
+    let timer: ReturnType<typeof setInterval> | null = null;
 
     async function refresh() {
       try {

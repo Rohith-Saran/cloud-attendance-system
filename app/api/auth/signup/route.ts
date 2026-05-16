@@ -34,7 +34,7 @@ function usersTable() {
 async function saveToDynamo(user: any) {
   const table = usersTable();
   if (!table) return { enabled: false };
-  const client = new DynamoDBClient({});
+  const client = new DynamoDBClient({ region: process.env.AWS_REGION || "ap-south-1" });
   const doc = DynamoDBDocumentClient.from(client);
   try {
     // check existing
