@@ -15,7 +15,7 @@ type Row = { month: string; rate: number };
 export default function MonthlyTrendLine({ data }: { data: Row[] }) {
   return (
     <div className="h-[280px] w-full">
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height={300} minHeight={200}>
         <LineChart data={data} margin={{ left: 8, right: 16, bottom: 4, top: 8 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#eef2ff" />
           <XAxis dataKey="month" stroke="#64748b" tick={{ fill: "#64748b", fontSize: 12 }} />

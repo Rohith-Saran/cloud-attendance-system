@@ -3,7 +3,10 @@
 import dynamic from "next/dynamic";
 import { useCallback, useMemo, useState } from "react";
 
-const DynScanner = dynamic(() => import("react-qr-scanner"), {
+const DynScanner = dynamic(async () => {
+  const mod = await import("@yudiel/react-qr-scanner");
+  return (mod as any).QrScanner ?? (mod as any).Scanner;
+}, {
   ssr: false,
   loading: () => (
     <div className="grid h-[280px] w-full max-w-xl place-items-center rounded-xl bg-slate-900 text-white">
@@ -25,13 +28,14 @@ export default function QRScannerPane({}: Props) {
       if (!text || busy) return;
 
       try {
-        const payload = text ? (() => {
+        let payload: any = null;
+        if (text) {
           try {
-            return JSON.parse(text);
+            payload = JSON.parse(text);
           } catch {
-            return null;
+            payload = null;
           }
-        })() : null;
+        }
         if (!payload?.sessionId || !payload?.token) {
           setMsg("That QR payload is unreadable.");
           return;
@@ -70,14 +74,16 @@ export default function QRScannerPane({}: Props) {
 
       <div className="mt-4 overflow-hidden rounded-xl border border-slate-100 bg-black">
         <DynScanner
-          constraints={constraints as any}
-          onError={(error: unknown) => {
-            setMsg(typeof error === "object" ? "Camera unavailable" : String(error));
-          }}
-          onScan={(data: any) => {
-            if (!data?.text) return;
-            void handleDecodedText(String(data.text));
-          }}
+          {...({
+            onDecode: (result: any) => {
+              const text = result?.toString?.() ?? result?.text ?? result?.data;
+              if (!text) return;
+              void handleDecodedText(String(text));
+            },
+            onError: (error: unknown) => {
+              setMsg(typeof error === "object" ? "Camera unavailable" : String(error));
+            },
+          } as any) }
         />
       </div>
 

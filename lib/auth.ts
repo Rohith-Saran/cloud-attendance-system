@@ -40,7 +40,8 @@ async function findLocalUserByEmail(email: string) {
   }
   const usersFile = path.join(process.cwd(), "data", "users.json");
   if (!fs.existsSync(usersFile)) return null;
-  const users = JSON.parse(fs.readFileSync(usersFile, "utf-8") || "[]");
+  const raw = fs.readFileSync(usersFile, "utf-8");
+  const users = raw ? JSON.parse(raw) : [];
   return users.find((u: any) => u.email === email) || null;
 }
 

@@ -15,7 +15,7 @@ type Row = { name: string; present: number; absent: number };
 export default function AttendanceBarChart({ data }: { data: Row[] }) {
   return (
     <div className="h-[280px] w-full">
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height={300} minHeight={200}>
         <BarChart data={data} margin={{ left: 8, right: 16, bottom: 4, top: 8 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#dbeafe" vertical={false} />
           <XAxis dataKey="name" stroke="#64748b" tick={{ fill: "#64748b", fontSize: 12 }} />

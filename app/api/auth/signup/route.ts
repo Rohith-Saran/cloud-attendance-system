@@ -14,7 +14,8 @@ async function saveLocalUser(user: any) {
     if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR);
     let users: any[] = [];
     if (fs.existsSync(USERS_FILE)) {
-      users = JSON.parse(fs.readFileSync(USERS_FILE, "utf-8") || "[]");
+      const raw = fs.readFileSync(USERS_FILE, "utf-8");
+      users = raw ? JSON.parse(raw) : [];
     }
     if (users.find((u) => u.email === user.email)) {
       return { status: 409, message: "User already exists" };

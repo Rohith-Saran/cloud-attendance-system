@@ -20,6 +20,7 @@
     "@tailwindcss/forms": "^0.5.11",
     "@types/pdfkit": "^0.17.6",
     "@types/qrcode": "^1.5.6",
+    "@yudiel/react-qr-scanner": "^2.6.0",
     "csv-writer": "^1.6.0",
     "ip-range-check": "^0.2.0",
     "next": "16.2.4",
@@ -28,21 +29,20 @@
     "qrcode": "^1.5.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "react-qr-scanner": "^1.0.0-alpha.11",
     "recharts": "^3.8.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/react": "^14.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
+    "jsdom": "^23.0.0",
     "tailwindcss": "^4.3.0",
     "typescript": "^5",
-    "vitest": "^1.0.0",
-    "@testing-library/react": "^14.0.0",
-    "@testing-library/jest-dom": "^6.0.0",
-    "jsdom": "^23.0.0"
+    "vitest": "^1.0.0"
   }
 }
