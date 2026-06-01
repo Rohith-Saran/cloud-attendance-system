@@ -7,8 +7,31 @@ type Row = Record<string, string>;
 export default function AdminStudentsPage() {
   const [rows, setRows] = useState<Row[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [success, setSuccess] = useState<string | null>(null);
 
   const preview = useMemo(() => rows.slice(0, 6), [rows]);
+
+  async function pushToDynamo() {
+    setBusy(true);
+    setError(null);
+    setSuccess(null);
+    try {
+      const res = await fetch("/api/admin/students", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ students: rows }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "Failed to import students");
+      setSuccess(`Successfully imported ${data.count || rows.length} students into class roster!`);
+      setRows([]);
+    } catch (e: any) {
+      setError(e?.message || String(e));
+    } finally {
+      setBusy(false);
+    }
+  }
 
   function handleFile(file: File | null) {
     setError(null);
@@ -111,12 +134,17 @@ export default function AdminStudentsPage() {
             </div>
             <button
               type="button"
-              disabled
-              className="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-slate-400"
+              disabled={busy}
+              onClick={pushToDynamo}
+              className="rounded-2xl bg-indigo-600 px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white hover:bg-indigo-700 shadow-md shadow-indigo-600/10 disabled:opacity-50"
             >
-              Dynamo push (wire API)
+              {busy ? "Uploading..." : "Dynamo push & save"}
             </button>
           </div>
+        ) : null}
+
+        {success ? (
+          <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-950 font-medium">{success}</div>
         ) : null}
       </div>
     </div>

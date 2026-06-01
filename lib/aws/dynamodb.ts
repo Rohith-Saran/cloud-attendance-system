@@ -7,6 +7,7 @@ import {
   UpdateCommand,
   DeleteCommand,
   BatchWriteCommand,
+  ScanCommand,
 } from "@aws-sdk/lib-dynamodb";
 
 const REGION = process.env.AWS_REGION || "us-east-1";
@@ -66,6 +67,19 @@ export async function queryItems(params: any) {
   if (demoMode) return { Items: [], demo: true };
   try {
     const cmd = new QueryCommand(params);
+    return await ddbClient.send(cmd);
+  } catch (err: any) {
+    if (String(err?.name || err?.code).includes("UnrecognizedClient") || String(err?.message || "").includes("security token")) {
+      return { Items: [], demo: true };
+    }
+    throw err;
+  }
+}
+
+export async function scanItems(params: any) {
+  if (demoMode) return { Items: [], demo: true };
+  try {
+    const cmd = new ScanCommand(params);
     return await ddbClient.send(cmd);
   } catch (err: any) {
     if (String(err?.name || err?.code).includes("UnrecognizedClient") || String(err?.message || "").includes("security token")) {

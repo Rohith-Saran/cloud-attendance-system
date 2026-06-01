@@ -65,6 +65,7 @@ export async function POST(req: NextRequest) {
   const attendanceItem = {
     classId,
     sortKey,
+    datestudentId: sortKey,
     studentId,
     date,
     status: "P",

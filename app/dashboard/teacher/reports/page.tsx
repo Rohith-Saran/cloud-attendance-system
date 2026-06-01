@@ -19,7 +19,7 @@ function todayISO() {
   return new Date().toISOString().slice(0, 10);
 }
 
-export default function AdminReportsPage() {
+export default function TeacherReportsPage() {
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
 
@@ -47,7 +47,6 @@ export default function AdminReportsPage() {
     setTableBusy(true);
     setMsg(null);
     try {
-      // Current API supports day-level today query; we use `date` as a quick preview seed.
       const date = toDate || todayISO();
       const res = await fetch(`/api/attendance/today?classId=${encodeURIComponent(classId)}&date=${encodeURIComponent(date)}`, {
         credentials: "include",
@@ -69,8 +68,6 @@ export default function AdminReportsPage() {
       await fetchTablePreview();
     })();
   }, [classId, toDate]);
-
-
 
   const filtered = useMemo(() => {
     const q = studentSearch.trim().toLowerCase();
@@ -124,10 +121,10 @@ export default function AdminReportsPage() {
   return (
     <div className="space-y-8">
       <div>
-        <div className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-700">Admin</div>
+        <div className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-700">Teacher</div>
         <div className="mt-2 text-3xl font-semibold tracking-tight text-slate-950">Attendance Reports</div>
         <div className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-600">
-          Filter by class, date range, subject, and student search — then export PDF/CSV from the server (S3 pre-signed URL).
+          Filter by class, date range, subject, and student search — then export PDF/CSV reports.
         </div>
       </div>
 
@@ -302,13 +299,7 @@ export default function AdminReportsPage() {
             </tbody>
           </table>
         </div>
-
-        <div className="mt-6 rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3 text-sm text-slate-600">
-          Reports are generated server-side and served via S3 pre-signed URLs. Ensure <code className="mx-1 rounded bg-white px-1 font-mono text-xs">AWS_S3_BUCKET_NAME</code>
-          &nbsp;and IAM policies are configured.
-        </div>
       </div>
     </div>
   );
 }
-

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 type Leave = {
   leaveId: string;
   studentId: string;
+  studentName?: string;
   fromDate: string;
   toDate: string;
   reason: string;
@@ -77,7 +78,10 @@ export default function TeacherLeavesPage() {
             {rows.length ? (
               rows.map((r) => (
                 <tr key={r.leaveId} className="border-t border-slate-100 align-top">
-                  <td className="px-5 py-4 font-mono text-xs">{r.studentId}</td>
+                  <td className="px-5 py-4">
+                    <div className="font-semibold text-slate-900">{r.studentName || "Student"}</div>
+                    <div className="font-mono text-xs text-slate-500">{r.studentId}</div>
+                  </td>
                   <td className="px-5 py-4 whitespace-nowrap text-slate-700">
                     {r.fromDate} → {r.toDate}
                   </td>

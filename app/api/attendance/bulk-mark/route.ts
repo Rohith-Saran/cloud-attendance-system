@@ -22,20 +22,29 @@ export async function POST(req: NextRequest) {
 
   // Transform marks into attendance items
   const date = todayDate();
-  const items = marks.map((m: any) => ({
-    classId,
-    sortKey: `${date}#${m.studentId}`,
-    studentId: m.studentId,
-    date,
-    status: m.status || "P",
-    markedAt: new Date().toISOString(),
-    markedBy: token.sub || token.email || "",
-    method: m.method || "bulk",
-  }));
+  const teacherId = String(token.sub ?? token.email ?? "");
+
+  const items = marks.map((m: any) => {
+    const studentId = m.studentId;
+    if (!studentId) return null;
+
+    return {
+      classId,
+      datestudentId: `${date}#${studentId}`,
+      studentId,
+      date,
+      status: m.status || "P",
+      markedAt: new Date().toISOString(),
+      markedBy: teacherId,
+      method: m.method || "bulk",
+    };
+  });
+
+  const filteredItems = items.filter(Boolean) as any[];
 
   try {
-    await batchWriteItems(ATTENDANCE_TABLE, items);
-    return NextResponse.json({ ok: true, written: items.length });
+    await batchWriteItems(ATTENDANCE_TABLE, filteredItems);
+    return NextResponse.json({ ok: true, written: filteredItems.length });
   } catch (err) {
     console.error("bulk-mark error", err);
     return NextResponse.json({ error: "failed" }, { status: 500 });

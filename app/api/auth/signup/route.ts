@@ -80,6 +80,9 @@ export async function POST(req: Request) {
       if (res.enabled === false) {
         // fallback to local
       } else {
+        if (res.status && res.status >= 400) {
+          return NextResponse.json({ error: res.message || "Signup failed" }, { status: res.status });
+        }
         return NextResponse.json({ ok: true, user }, { status: res.status ?? 201 });
       }
     }

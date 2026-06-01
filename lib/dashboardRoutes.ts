@@ -14,8 +14,9 @@ export const DASHBOARD_ROUTES: Record<DashboardRole, DashboardRouteDef[]> = {
   ],
   teacher: [
     { href: "/dashboard/teacher", label: "Overview", crumb: "Teacher overview" },
-    { href: "/dashboard/teacher/mark", label: "Mark attendance", crumb: "Mark attendance" },
-    { href: "/dashboard/teacher/leaves", label: "Leave requests", crumb: "Leave requests" },
+    { href: "/dashboard/teacher/mark", label: "Mark Attendance", crumb: "Mark Attendance" },
+    { href: "/dashboard/teacher/leaves", label: "Leave Requests", crumb: "Leave Requests" },
+    { href: "/dashboard/teacher/reports", label: "Reports", crumb: "Reports" },
   ],
   student: [
     { href: "/dashboard/student", label: "Home", crumb: "Student home" },

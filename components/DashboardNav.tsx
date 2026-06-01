@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { DASHBOARD_ROUTES, resolveDashboardRole } from "~/lib/dashboardRoutes";
 
+
 function cx(...bits: Array<string | false | null | undefined>) {
   return bits.filter(Boolean).join(" ");
 }
@@ -39,9 +40,6 @@ export default function DashboardNav() {
                 </Link>
               );
             })}
-            <Link href="/dashboard" prefetch={false} className="shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold bg-white/5 text-white/70 ring-1 ring-white/10 hover:bg-white/10">
-              Dashboard
-            </Link>
           </div>
         </div>
       </nav>
@@ -58,18 +56,9 @@ export default function DashboardNav() {
             </div>
           </div>
         </div>
+
         <nav className="flex-1 px-3 pb-4">
           <ul className="space-y-1">
-            <li className="mb-2 pb-3">
-              <Link
-                href="/dashboard"
-                prefetch={false}
-                className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/70 ring-1 ring-white/10 bg-white/[0.04] hover:bg-white/10 hover:text-white"
-              >
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-300/85" aria-hidden />
-                Dashboard home
-              </Link>
-            </li>
             {routes.map((item) => {
               const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
               return (
