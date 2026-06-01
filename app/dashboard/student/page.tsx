@@ -75,7 +75,11 @@ export default function StudentHomePage() {
   const [leaveOpen, setLeaveOpen] = useState(false);
   const [leave, setLeave] = useState({ fromDate: "", toDate: "", reason: "", status: "" });
 
-  const todayLabel = useMemo(() => new Date().toLocaleDateString(), []);
+  const [todayLabel, setTodayLabel] = useState("");
+
+  useEffect(() => {
+    setTodayLabel(new Date().toLocaleDateString());
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
