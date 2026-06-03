@@ -1,4 +1,4 @@
-# ☁️ Cloud-Based Attendance Management System
+#  Cloud-Based Attendance Management System
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.2-black?style=flat-skin&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.0-blue?style=flat-skin&logo=react&logoColor=white)](https://react.dev/)
